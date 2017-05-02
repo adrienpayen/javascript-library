@@ -1,0 +1,20 @@
+body{
+    margin: 0;
+}
+
+#slideshow{
+    width: 350px;
+    height: 200px;
+    overflow: hidden;
+}
+
+#rail{
+    width: 300%;
+    height: 200px;
+    padding:0; margin:0;
+    list-style: none;
+}
+
+#rail li{
+    float: left;
+}
