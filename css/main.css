@@ -1,13 +1,31 @@
 body{
     margin: 0;
+    background-image:url(http://cdn.wallpapersafari.com/7/69/bHRwmY.jpg);
+
 }
 
+
 .container{
-    width: 100%;
+	opacity: 1;
+ 
+	width:610px;
+  	height:211px;
+   	overflow: hidden;
+  	position: absolute;
+  	background-size:cover;
     margin: auto;
+    width: 75%;
+    border: 3px ;
+
 }
 
 #slideshow{
+    width: 100%;
+    height: 400px;
+    overflow-y: hidden;
+}
+
+#slidePanel{
     width: 100%;
     height: 400px;
     overflow-y: hidden;
@@ -104,4 +122,50 @@ body {font-family: Verdana,sans-serif;margin:0}
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
   .prevStep, .nextStep,.text {font-size: 11px}
+}
+
+.play{
+			color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); 
+            background: #4f9153;
+}
+
+.stop{
+			color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            background: #f44242;
+}
+
+
+.next:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous:hover {
+    background-color: #f44242;
+    color: black;
+}
+
+
+.previous {
+	 text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+	 text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #9e9191;
+    color: white;
+}
+
+.round {
+    border-radius: 50%;
 }

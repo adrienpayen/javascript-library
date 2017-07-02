@@ -84,38 +84,38 @@ var Slider = {
 
     },
 
-    spans : {
+    // spans : {
 
-        add: function(target, content , struct){
+    //     add: function(target, content , struct){
 
-            $("#" + target).append(
+    //         $("#" + target).append(
 
-                "<span class='spanSlider' onclick='currentDiv()'></span>"
-                );
-        }
+    //             "<span class='spanSlider' onclick='currentDiv()'></span>"
+    //             );
+    //     }
     
 
-    },
+    // },
 
-    currentSlide: function(n) {
-  sliderShowJS(indexOfSlide = n);
-},
+//     currentSlide: function(n) {
+//   sliderShowJS(indexOfSlide = n);
+// },
 
-sliderShowJS : function(n) {
-  var i;
-  var slides = document.getElementsByClassName("container");
-  var spanSlider = document.getElementsByClassName("spanSlider");
-  if (n > slides.length) {indexOfSlide = 1}    
-  if (n < 1) {indexOfSlide = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";  
-  }
-  for (i = 0; i < spanSlider.length; i++) {
-      spanSlider[i].className = spanSlider[i].className.replace(" active", "");
-  }
-  slides[indexOfSlide-1].style.display = "block";  
-  spanSlider[indexOfSlide-1].className += " active";
-},
+// sliderShowJS : function(n) {
+//   var i;
+//   var slides = document.getElementsByClassName("container");
+//   var spanSlider = document.getElementsByClassName("spanSlider");
+//   if (n > slides.length) {indexOfSlide = 1}    
+//   if (n < 1) {indexOfSlide = slides.length}
+//   for (i = 0; i < slides.length; i++) {
+//       slides[i].style.display = "none";  
+//   }
+//   for (i = 0; i < spanSlider.length; i++) {
+//       spanSlider[i].className = spanSlider[i].className.replace(" active", "");
+//   }
+//   slides[indexOfSlide-1].style.display = "block";  
+//   spanSlider[indexOfSlide-1].className += " active";
+// },
 
     nextStep: function(target, speed) {
         $("#"+target).animate({marginLeft:-($("#"+target).children().width())*2},speed,function(){
