@@ -170,14 +170,12 @@ var Slider = {
 
 
 
-            // ca peut pas marcher car le marginLeft doit toujours être à une valeur constante (-1034px) par exemple
             $("#"+target).animate({marginLeft:(-($("#"+target).children().width())*(2+space-1))},speed,function(){
 
                 for (var i = 0; i < space-1; i++) {
                     $("#"+target).find("li:last").after($(this).find("li:first"));
                 }
 
-                // il faut deplacer les li avant de replacer le marginLeft à sa valeur constante
                 $("#"+target).css({marginLeft:"-"+($("#"+target).children().width())+"px"}).find("li:last").after($(this).find("li:first"));
             });
         } else if (idActive > data) {
@@ -189,14 +187,12 @@ var Slider = {
 
 
 
-            // ca peut pas marcher car le marginLeft doit toujours être à une valeur constante (-1034px) par exemple
             $("#"+target).animate({marginLeft:($("#"+target).children().width())},speed,function(){
 
                 for (var i = 0; i < space-1; i++) {
                     $("#"+target).find("li:first").before($(this).find("li:last"));
                 }
 
-                // il faut deplacer les li avant de replacer le marginLeft à sa valeur constante
                 $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:first").before($(this).find("li:last"));
 
             });
