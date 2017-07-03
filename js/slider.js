@@ -19,13 +19,14 @@
                 interval: 4500,
                 autoplay: true
             };
-
             var options = $.extend(defaults, options);
 
             return this.each(function() {
                 var o = options;
                 var that = this;
                 var uuid = guid();
+                var nbImg = 1;
+
 
                 if (!o.mainDiv) {
                     var mainDiv = "rail-" + uuid;
@@ -34,29 +35,29 @@
                 Slider.initialize(that, mainDiv, o.width);
 
                 if (o.jsonData.url) {
-                    $.ajax({
+                    var ajax = $.ajax({
                         url: o.jsonData.url,
                         type: 'GET',
 
                         success : function(content) {
-
                             var parsedContent = JSON.parse(content);
+
                             parsedContent.forEach(function(element){
-                                Slider.images.add(mainDiv,element, o.jsonDataStruct);
+                                Slider.images.add(mainDiv,element, o.jsonDataStruct, nbImg);
+                                nbImg++;
                             });
+
+                            nbImg = parsedContent.length;
+
+                            Slider.resize(mainDiv, nbImg);
+
+                            $(".next").on("click", function(){ Slider.nextStep(mainDiv, o.speed) });
+                            $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed) });
+                            $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
+                            $(".stop").on("click", function(){ Slider.stopAutoPlay() });
                         }
                     });
                 }
-
-var numberImg= 4;
-
-                Slider.resize(mainDiv, numberImg);
-
-
-                $(".next").on("click", function(){ Slider.nextStep(mainDiv, o.speed) });
-                $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed) });
-                $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
-                $(".stop").on("click", function(){ Slider.stopAutoPlay() });
             });
         }
     });
@@ -79,12 +80,13 @@ var Slider = {
     },
 
     images : {
-        add: function(target, content, struct) {
+        add: function(target, content, struct, id) {
             $("#" + target).append(
-                "<li style='width:100%; text-align: center;' id='"+guid()+"'>" +
+                "<li style='width:100%; text-align: center;' id='"+guid()+"' data-id='"+ id +"'>" +
                 "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
                 "<div class='textSlider'>" + content[struct.description] +"</div>" +
                 "</li>");
+            $('.sliderPuces').append("<span></span>");
         }
 
     },
@@ -110,10 +112,7 @@ var Slider = {
 
     stopAutoPlay: function() {
         clearInterval(myInterval);
-    },
-
-
-
+    }
 };
 
 /** Helpers Function **/
