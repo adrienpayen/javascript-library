@@ -57,6 +57,7 @@ var numberImg= 4;
                 $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed) });
                 $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
                 $(".stop").on("click", function(){ Slider.stopAutoPlay() });
+
             });
         }
     });
