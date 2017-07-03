@@ -66,16 +66,16 @@ var numberImg= 4;
 var Slider = {
     initialize: function(target, name) {
         $(target).append("<ul id='" + name + "' " +
-            "style='padding:0; margin:0 0 0 -"+$(target).width()+"px; list-style-type: none; display:flex;'></ul>");
+            "style='padding:0; margin:0 0 0 -"+$(target).width()+"px; list-style-type: none; display:flex; height: 100%;'></ul>");
     },
 
     resize: function(target, numberElement) {
         $("#"+target).css('width', ($("#"+target).parent().width() * numberElement) + "px");
 
-        $(window).resize(function(){
-            
-            $("#"+target).css('width', ($("#"+target).parent().width() * numberElement) + "px");
-        })
+        // $(window).resize(function(){
+        //
+        //     $("#"+target).css('width', ($("#"+target).parent().width() * numberElement) + "px");
+        // })
     },
 
     images : {
@@ -83,7 +83,7 @@ var Slider = {
             $("#" + target).append(
                 "<li style='width:100%; text-align: center;' id='"+guid()+"'>" +
                 "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                "<div class='textSlider'>" + guid() +"</div>" +  
+                "<div class='textSlider'>" + content[struct.description] +"</div>" +
                 "</li>");
         }
 
