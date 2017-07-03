@@ -51,10 +51,18 @@
 
                             Slider.resize(mainDiv, nbImg);
 
-                            $(".next").on("click", function(){ Slider.nextStep(mainDiv, o.speed) });
-                            $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed) });
+                            console.log(
+
+                            );
+
+                            $(".next").on("click", function(){ Slider.nextStep(mainDiv, o.speed, nbImg) });
+                            $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed, nbImg) });
                             $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
                             $(".stop").on("click", function(){ Slider.stopAutoPlay() });
+
+                            $('.sliderPuces span').on("click", function(){
+                                Slider.puceSlide(mainDiv, o.speed, $(this).data('target'), nbImg)
+                            })
                         }
                     });
                 }
@@ -81,23 +89,56 @@ var Slider = {
 
     images : {
         add: function(target, content, struct, id) {
-            $("#" + target).append(
-                "<li style='width:100%; text-align: center;' id='"+guid()+"' data-id='"+ id +"'>" +
-                "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                "<div class='textSlider'>" + content[struct.description] +"</div>" +
-                "</li>");
-            $('.sliderPuces').append("<span></span>");
+            if (id == '2') {
+                $("#" + target).append(
+                    "<li id='"+guid()+"' class='active' data-id='"+ id +"'>" +
+                    "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
+                    "<div class='textSlider'>" + content[struct.description] +"</div>" +
+                    "</li>");
+                $('.sliderPuces').append("<span class='active' data-target='"+ id +"'></span>");
+            } else {
+                $("#" + target).append(
+                    "<li id='"+guid()+"' data-id='"+ id +"'>" +
+                    "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
+                    "<div class='textSlider'>" + content[struct.description] +"</div>" +
+                    "</li>");
+                $('.sliderPuces').append("<span data-target='"+ id +"'></span>");
+            }
         }
 
     },
 
-    nextStep: function(target, speed) {
+    nextStep: function(target, speed, nbImg) {
+        var idActive = $("li.active").removeClass("active").data('id');
+        $("span[data-target="+idActive+"]").removeClass("active");
+
+        if (idActive == nbImg) {
+            idActive = 1;
+        } else {
+            idActive++;
+        }
+
+        $("li[data-id="+idActive+"]").addClass("active");
+        $("span[data-target="+idActive+"]").addClass("active");
+
         $("#"+target).animate({marginLeft:-($("#"+target).children().width())*2},speed,function(){
             $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:last").after($(this).find("li:first"));
         });
     },
 
-    previousStep: function(target, speed) {
+    previousStep: function(target, speed, nbImg) {
+        var idActive = $("li.active").removeClass("active").data('id');
+        $("span[data-target="+idActive+"]").removeClass("active");
+
+        if (idActive == 1) {
+            idActive = nbImg;
+        } else {
+            idActive--;
+        }
+
+        $("li[data-id="+idActive+"]").addClass("active");
+        $("span[data-target="+idActive+"]").addClass("active");
+
         $("#"+target).animate({marginLeft:0},speed,function(){
             $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:first").before($(this).find("li:last"));
         })
@@ -112,6 +153,37 @@ var Slider = {
 
     stopAutoPlay: function() {
         clearInterval(myInterval);
+    },
+
+    puceSlide: function(target, speed, data, nbImg) {
+        $("span.active").removeClass("active");
+        $("span[data-target="+data+"]").addClass("active");
+
+        var idActive = $("li.active").data('id');
+
+        if (idActive < data) {
+            var space = data - idActive;
+
+            // $("li[data-id="+data+"]").insertBefore($("li.active"));
+            $("li.active").removeClass('active');
+            $("li[data-id="+data+"]").addClass('active');
+
+            // ca peut pas marcher car le marginLeft doit toujours être à une valeur constante (-1034px) par exemple
+            $("#"+target).animate({marginLeft:(-($("#"+target).children().width())*2)},speed,function(){
+                
+                // il faut deplacer les li avant de replacer le marginLeft à sa valeur constante
+                $("#"+target).css({marginLeft:"-"+($("#"+target).children().width())*space+"px"}).find("li:last").after($(this).find("li:first"));
+            });
+        } else if (idActive > data) {
+            var space = idActive - data;
+
+            console.log($("li[data-id="+data+"]"));
+
+        }
+
+        // $("#"+target).animate({marginLeft:-($("#"+target).children().width())*2},speed,function(){
+        //     $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:last").after($(this).find("li:first"));
+        // });
     }
 };
 
