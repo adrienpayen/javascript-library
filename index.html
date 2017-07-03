@@ -4,25 +4,37 @@
         <meta charset="utf-8">
         <meta name="description" content="description de la page">
         <title>Titre de la page</title>
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/css/font-awesome.css">
     </head>
-    <body style="padding: 0; margin: 0;">
+    <body>
 
       <div class="fond">
 
         <div class="container">
-            <div id="slideshow">
+        <!--Conteneur du slider-->
+            <div class="sliderImg" id="slideshow">
+            <!--Images du Slider-->
 
-                <button class="play">Play</button>
-                <button class="stop">Stop</button>
-                <button class="previous round">&laquo; Previous </button>
-                <button class="next round">Next &raquo;</button>
-
+          <div class="sliderPanel">
+          <!--Bouton de navigation-->
+          <div class="sliderNav"> 
+                <button class="previous"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+                 <button class="play"><i class="fa fa-play" aria-hidden="true"></i></button>
+                 <button class="stop"><i class="fa fa-pause" aria-hidden="true"></i></button>
+                 <button class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></button></div>
+                
             </div>
+         <div class="sliderPuces">
+            <!--Puces liées aux images-->
+        </div>
+        </div>
 
-            </div>
+
+
 
         </div>
+
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
