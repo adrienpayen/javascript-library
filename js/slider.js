@@ -49,16 +49,6 @@
                             });
 
 
-                            var enableAutoplay = $('.autoPlayHover').change(function() {
-                                    if ($(this).is(':checked')) {
-                                        return true;
-
-                                    } else {
-                                        return false;
-                                    }
-                                 });
-
-
                             nbImg = parsedContent.length;
 
                             Slider.resize(mainDiv, nbImg);
@@ -72,23 +62,29 @@
                             $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
                             $(".stop").on("click", function(){ Slider.stopAutoPlay() });
                             $(".next").on("click", function(){ $(".textSlider").slideDown() });
-                             if(enableAutoplay ==true){
-                                $(".sliderNav").mouse("over",function(){ Slider.stopAutoPlay() });
-                                $(".sliderNav").mouse("out",function(){ Slider.stopAutoPlay() });
-                            }
-                            $('.sliderPuces span').on("click", function(){
-                                Slider.puceSlide(mainDiv, o.speed, $(this).data('target'), nbImg)
+                            $('.autoPlayHover').click(function() {
+                              if ($(this).is(':checked')) {
+                                $(".sliderNav").mouseover(function(){
+                                    Slider.stopAutoPlay() 
+                                });
+                                $(".sliderNav").mouseout(function(){
+                                    Slider.stopAutoPlay() ,
+                                    Slider.autoPlay(mainDiv, o.speed, o.interval)
+                                });
+                              }
                             });
-                           
-                            
+                 $('.sliderPuces span').on("click", function(){
+                                Slider.puceSlide(mainDiv, o.speed, $(this).data('target'), nbImg)
+                            })
 
-                    
+                        }
                     });
                 }
             });
         }
     });
 })(jQuery);
+
 
 /** MY SLIDER OBJECT **/
 var Slider = {
