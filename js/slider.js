@@ -82,29 +82,18 @@
                                 });
 
                                 $("#autoPlayHover").click(function(){
-                                            if($(this).prop("checked") == true){
-                                                alert("Checkbox is checked.");
-      
-                                                $(".sliderNav").hover(function(){
+                                    if($(this).prop("checked") == true){
+                                        Slider.autoPlay(mainDiv, o.speed, o.interval)
 
-                                                    Slider.stopAutoPlay()
-
-                                                       }, function(){
-                                                         
-                                                          Slider.autoPlay(mainDiv, o.speed, o.interval)
-                                                   });
-                                            } 
-                                            else if ($(this).prop("checked") == false){
-
-                                                 $('.sliderNav').(function(){
-
-                                                     Slider.stopAutoPlay() // annule l'action du lien
-                                                 });
-
-                                            }
-                                     
+                                        $(".sliderNav").hover(function(){Slider.stopAutoPlay()}, function(){
+                                            Slider.autoPlay(mainDiv, o.speed, o.interval)
                                         });
+                                    } else if ($(this).prop("checked") == false){
 
+                                         Slider.stopAutoPlay() // annule l'action du lien
+
+                                    }
+                                });
                             });
 
 
@@ -130,11 +119,6 @@ var Slider = {
 
     resize: function(target, numberElement) {
         $("#" + target).css('width', (100 * numberElement) + "%");
-
-        // $(window).resize(function(){
-        //
-        //     $("#"+target).css('width', ($("#"+target).parent().width() * numberElement) + "px");
-        // })
     },
 
     images: {
