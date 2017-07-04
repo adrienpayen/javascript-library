@@ -175,3 +175,44 @@ img{
 button:focus, button:active{
     outline: none;
 }
+
+.textSlider{
+
+    width:33%;
+    margin-left: 35%;
+}
+
+.container
+{
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
+
+.container .textSlider
+{
+  background-color:  rgba(226,226,226,0.5);
+  bottom: -100%;
+  color: black;
+  text-shadow: white;
+  height: 30%;
+  margin:0;
+  text-align: center;
+  position: absolute;
+  transition: bottom 0.5s ease;
+  width: 100%;
+  font-style:italic;
+  font-size: 20px;
+  overflow-y: hidden;
+}
+
+.container:hover .textSlider
+{
+  bottom: 0%;
+}
+
+.contentTextSlider{
+    font-family: "Lucida Sans Unicode";
+    display: inline-block;
+
+}

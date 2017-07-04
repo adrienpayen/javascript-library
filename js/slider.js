@@ -59,7 +59,7 @@
                             $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed, nbImg) });
                             $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
                             $(".stop").on("click", function(){ Slider.stopAutoPlay() });
-
+                            $(".next").on("click", function(){ $(".textSlider").slideDown() });
                             $('.sliderPuces span').on("click", function(){
                                 Slider.puceSlide(mainDiv, o.speed, $(this).data('target'), nbImg)
                             })
@@ -93,14 +93,14 @@ var Slider = {
                 $("#" + target).append(
                     "<li id='"+guid()+"' class='active' data-id='"+ id +"'>" +
                     "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                    "<div class='textSlider'>" + content[struct.description] +"</div>" +
+                    "<div class='textSlider'><p class='contentTextSlider'>" + content[struct.description] +"</p></div>" +
                     "</li>");
                 $('.sliderPuces').append("<span class='active' data-target='"+ id +"'></span>");
             } else {
                 $("#" + target).append(
                     "<li id='"+guid()+"' data-id='"+ id +"'>" +
                     "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                    "<div class='textSlider'>" + content[struct.description] +"</div>" +
+                    "<div class='textSlider'><p class='contentTextSlider'>" + content[struct.description] +"</p></div>" +
                     "</li>");
                 $('.sliderPuces').append("<span data-target='"+ id +"'></span>");
             }
@@ -119,8 +119,9 @@ var Slider = {
         }
 
         $("li[data-id="+idActive+"]").addClass("active");
-        $("span[data-target="+idActive+"]").addClass("active");
 
+        $("span[data-target="+idActive+"]").addClass("active");
+        $('.textSlider').animate({ scrollTop: (10) }, 'slow');
         $("#"+target).animate({marginLeft:-($("#"+target).children().width())*2},speed,function(){
             $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:last").after($(this).find("li:first"));
         });
@@ -199,6 +200,8 @@ var Slider = {
         }
     }
 };
+
+    // run the currently selected effect
 
 /** Helpers Function **/
 function guid() {
