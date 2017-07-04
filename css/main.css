@@ -19,18 +19,22 @@ li{
 
 }
 
-.container{
-    opacity: 1;
-    height:500px;
-    overflow: hidden;
-    position: absolute;
-    background-size:cover;
-    margin: auto;
-    width: 100%;
-    border: 3px ;
-    margin-top: 100px;
 
+button{
+    position: absolute;
+    background-color: #000000;
+    border: none;
+    display:inline-block;
+    cursor:pointer;
+    color:white;
+    font-family:Arial;
+    font-size:17px;
+    padding: 10px 24px;
+    text-decoration:none;
+    text-shadow: 0px 1px 0px #fff;
 }
+
+
 
 .sliderImg{
     width:100%;
@@ -54,26 +58,12 @@ li{
     z-index: 1;
 }
 
-button{
-    position: absolute;
-    background-color: #000000;
-    border: none;
-    display:inline-block;
-    cursor:pointer;
-    color:white;
-    font-family:Arial;
-    font-size:17px;
-    padding: 10px 24px;
-    text-decoration:none;
-    text-shadow: 0px 1px 0px #fff;
-}
-
 .next{
     top: 50%;
     transform: translateY(-50%);
     right: 0;
     height: 100%;
-    opacity: 0.1;
+    opacity: 0;
 }
 
 .previous{
@@ -81,13 +71,33 @@ button{
     transform: translateY(-50%);
     left: 0;
     height: 100%;
-    opacity: 0.1;
+    opacity: 0;
 }
 
 .play{
     right: 50%;
     top: 0;
     width: 20px !important;
+    opacity: 0;
+}
+
+.stop{
+    left: 50%;
+    top: 0;
+    opacity: 0;
+}
+
+.sliderNav:hover .next,
+.sliderNav:hover .previous,
+.sliderNav:hover .play,
+.sliderNav:hover .stop{
+    opacity: 0.1;
+}
+
+.sliderNav:hover .next:hover,
+.sliderNav:hover .previous:hover,
+.sliderNav:hover .play:hover,
+.sliderNav:hover .stop:hover{
     opacity: 0.2;
 }
 
@@ -95,37 +105,14 @@ button{
     font-size: 8px;
 }
 
-.stop{
-    left: 50%;
-    top: 0;
-    opacity: 0.2;
-}
-
 button:hover{
-    opacity: 0.2;
     color: white;
-}
-
-button.play:hover, button.stop:hover{
-    opacity: 0.3;
-}
-
-/* Caption text */
-.textSlider {
-    color: #f2f2f2;
-    font-size: 15px;
-    padding: 8px 12px;
-    position: absolute;
-    bottom: 25px;
-    width: 100%;
-    text-align: center;
-    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
 }
 
 img{
     position: absolute;
-    min-height: 100%;
-    min-width: 100%;
+    min-width: 100%; width: 100%; height: 100%; min-height: 100%; object-fit: cover;
+    margin: auto;
     display: block;
     top: 50%;
     left: 50%;
@@ -150,15 +137,6 @@ img{
     box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
 }
 
-/*.sliderPuces span:hover ~ .active{*/
-    /*background: none;*/
-    /*border: 1px solid white;*/
-/*}*/
-
-/*.sliderPuces span.active:hover{*/
-    /*background: white;*/
-/*}*/
-
 .sliderPuces span:hover{
     cursor: pointer;
     background: white;
@@ -177,43 +155,3 @@ button:focus, button:active{
 }
 
 
-.textSlider{
-
-    width:33%;
-    margin-left: 35%;
-}
-
-.container
-{
-  overflow: hidden;
-  text-align: center;
-  position: relative;
-}
-
-.container .textSlider
-{
-  background-color:  rgba(226,226,226,0.5);
-  bottom: -100%;
-  color: black;
-  text-shadow: white;
-  height: 33,3%;
-  margin-left:33,3%;
-  text-align: center;
-  position: absolute;
-  transition: bottom 0.5s ease;
-  width: 30%;
-  font-style:italic;
-  font-size: 20px;
-  overflow-y: hidden;
-}
-
-.container:hover .textSlider
-{
-  bottom: 0%;
-}
-
-.contentTextSlider{
-    font-family: "Lucida Sans Unicode";
-    display: inline-block;
-
-}
