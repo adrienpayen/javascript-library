@@ -93,14 +93,14 @@ var Slider = {
                 $("#" + target).append(
                     "<li id='"+guid()+"' class='active' data-id='"+ id +"'>" +
                     "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                    "<div class='textSlider'><p class='contentTextSlider'>" + content[struct.description] +"</p></div>" +
+                    "<div class='textSlider'><h2 class='title'>"+content[struct.title]+"</h2><p class='contentTextSlider'>" + content[struct.description] +"</p></div>" +
                     "</li>");
                 $('.sliderPuces').append("<span class='active' data-target='"+ id +"'></span>");
             } else {
                 $("#" + target).append(
                     "<li id='"+guid()+"' data-id='"+ id +"'>" +
                     "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                    "<div class='textSlider'><p class='contentTextSlider'>" + content[struct.description] +"</p></div>" +
+                    "<div class='textSlider'><h2 class='title'>"+content[struct.title]+"</h2><p class='contentTextSlider'>" + content[struct.description] +"</p></div>" +
                     "</li>");
                 $('.sliderPuces').append("<span data-target='"+ id +"'></span>");
             }
