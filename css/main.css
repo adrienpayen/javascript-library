@@ -1,171 +1,266 @@
 body{
+
     margin: 0;
     background-image:url(http://cdn.wallpapersafari.com/7/69/bHRwmY.jpg);
 
 }
-
-
-.container{
-	opacity: 1;
- 
-	width:610px;
-  	height:211px;
-   	overflow: hidden;
-  	position: absolute;
-  	background-size:cover;
-    margin: auto;
-    width: 75%;
-    border: 3px ;
-
-}
-
-#slideshow{
-    width: 100%;
-    height: 400px;
-    overflow-y: hidden;
-}
-
-#slidePanel{
-    width: 100%;
-    height: 400px;
-    overflow-y: hidden;
-}
-
 li{
-    display: inline;
+    height:100%;
+    width: 100%;
+    text-align: center;
+    position:relative;
+    display:inline-block;
+    overflow:hidden;
+}
+
+* {
+
+    box-sizing:border-box;
+
 }
 
 
-* {box-sizing:border-box}
-
-body {font-family: Verdana,sans-serif;margin:0}
-
-/* Slideshow container */
-.container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
-
-/* Next & previous buttons */
-.prevStep, .nextStep {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-}
-
-/* Position the "next button" to the right */
-.nextStep {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prevStep:hover, .nextStep:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
-/* Caption text */
-.textSlider {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
+button{
+    position: absolute;
+    background-color: #000000;
+    border: none;
+    display:inline-block;
+    cursor:pointer;
+    color:white;
+    font-family:Arial;
+    font-size:17px;
+    padding: 10px 24px;
+    text-decoration:none;
+    text-shadow: 0px 1px 0px #fff;
 }
 
 
-/* The dots/bullets/indicators */
-.spanSlider {
-  cursor:pointer;
-  height: 13px;
-  width: 13px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
+
+.sliderImg{
+    width:100%;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+
 }
 
-.active, .spanSlider:hover {
-  background-color: #717171;
+.sliderNav{
+
+    position:relative;
+    height: 100%;
+
+}
+.sliderPanel{
+
+    width:100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
 }
 
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
+.next{
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    height: 100%;
+    opacity: 0;
 }
 
-@-webkit-keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
-
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prevStep, .nextStep,.text {font-size: 11px}
+.previous{
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 100%;
+    opacity: 0;
 }
 
 .play{
-			color: white;
-            border-radius: 4px;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); 
-            background: #4f9153;
+    right: 50%;
+    top: 0;
+    width: 20px !important;
+    opacity: 0;
 }
 
 .stop{
-			color: white;
-            border-radius: 4px;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-            background: #f44242;
+    left: 50%;
+    top: 0;
+    opacity: 0;
 }
 
-
-.next:hover {
-    background-color: #ddd;
-    color: black;
+.sliderNav:hover .next,
+.sliderNav:hover .previous,
+.sliderNav:hover .play,
+.sliderNav:hover .stop{
+    opacity: 0.1;
 }
 
-.previous:hover {
-    background-color: #f44242;
-    color: black;
+.sliderNav:hover .next:hover,
+.sliderNav:hover .previous:hover,
+.sliderNav:hover .play:hover,
+.sliderNav:hover .stop:hover{
+    opacity: 0.2;
 }
 
-
-.previous {
-	 text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #f1f1f1;
-    color: black;
+.play .fa, .stop .fa{
+    font-size: 8px;
 }
 
-.next {
-	 text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #9e9191;
+button:hover{
     color: white;
 }
 
-.round {
+img{
+    position: absolute;
+    min-width: 100%; width: 100%; height: 100%; min-height: 100%; object-fit: cover;
+    margin: auto;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sliderPuces{
+    position: absolute;
+    width: 100%;
+    z-index: 9999;
+    bottom: 5px;
+    text-align: center;
+}
+
+.sliderPuces span{
+    width: 10px;
+    height: 10px;
+    border: 1px solid white;
+    display: inline-block;
+    border-radius: 50%;
+    margin: 0 2px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+}
+
+.sliderPuces span:hover{
+    cursor: pointer;
+    background: white;
+}
+
+.sliderPuces span.active{
+    width: 10px;
+    height: 10px;
+    background: white;
+    display: inline-block;
     border-radius: 50%;
 }
+
+button:focus, button:active{
+    outline: none;
+}
+
+
+.textSlider{
+
+    width:43%;
+    margin-left: 35%;
+     padding: 50px 12px;
+
+}
+
+.container
+{
+
+
+    opacity: 1;
+    height:500px;
+    overflow: hidden;
+    position: absolute;
+    background-size:cover;
+    margin: auto;
+    width: 100%;
+    border: 3px ;
+    margin-top: 100px;
+    
+}
+
+.container .textSlider
+{
+  background-color:  rgba(226,226,226,0.5);
+  bottom: -100%;
+  color: black;
+  text-shadow: white;
+  height: 53,3%;
+  margin-left:33,3%;
+  text-align: center;
+  position: absolute;
+  transition: bottom 2s ease;
+  width: 30%;
+  font-style:italic;
+  font-size: 20px;
+  overflow-y: hidden;
+}
+
+.container:hover .textSlider
+{
+  bottom: 50%;
+}
+
+.contentTextSlider{
+    font-family: "Lucida Sans Unicode";
+       display: inline-block;
+
+}
+
+
+.autoPlayHover {
+  width: 80px;
+  height: 26px;
+  background: #333;
+  margin: 20px auto;
+  position: relative;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+
+
+}
+
+  .autoPlayHover::before {
+    content: 'ON';
+    color: green;
+    position: absolute;
+    left: 10px;
+    z-index: 0;
+    font: 12px/26px Arial, sans-serif;
+    font-weight: bold;
+  }
+
+  .autoPlayHover::after {
+    content: 'OFF';
+    color: #000;
+    position: absolute;
+    right: 10px;
+    z-index: 0;
+    font: 12px/26px Arial, sans-serif;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+  }
+
+  .autoPlayHover label {
+    display: block;
+    width: 34px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 1;
+    background: #fcfff4;
+    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    border-radius: 50px;
+    transition: all 0.4s ease;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+  }
+
+
+  input[type=checkbox] {
+    visibility: hidden;
+  } 
+ input[type=checkbox]:checked + label {
+      left: 43px;
+    }

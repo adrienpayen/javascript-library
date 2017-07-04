@@ -1,4 +1,4 @@
-(function($){
+(function($) {
 
     $.fn.extend({
 
@@ -6,26 +6,27 @@
 
             //Settings list and the default values
             var defaults = {
-                jsonData : {
-                    url : false
+                jsonData: {
+                    url: false
                 },
-                jsonDataStruct : {
-                    url : "url",
-                    title : "title",
-                    description : "description"
+                jsonDataStruct: {
+                    url: "url",
+                    title: "title",
+                    description: "description"
                 },
-                mainDiv : false,
-                speed : 1500,
+                mainDiv: false,
+                speed: 1500,
                 interval: 4500,
                 autoplay: true
             };
-
             var options = $.extend(defaults, options);
 
             return this.each(function() {
                 var o = options;
                 var that = this;
                 var uuid = guid();
+                var nbImg = 1;
+
 
                 if (!o.mainDiv) {
                     var mainDiv = "rail-" + uuid;
@@ -33,116 +34,213 @@
 
                 Slider.initialize(that, mainDiv, o.width);
 
+
                 if (o.jsonData.url) {
-                    $.ajax({
+                    var ajax = $.ajax({
                         url: o.jsonData.url,
                         type: 'GET',
 
-                        success : function(content) {
-
+                        success: function(content) {
                             var parsedContent = JSON.parse(content);
-                            parsedContent.forEach(function(element){
-                                Slider.images.add(mainDiv,element, o.jsonDataStruct);
+
+                            parsedContent.forEach(function(element) {
+                                Slider.images.add(mainDiv, element, o.jsonDataStruct, nbImg);
+                                nbImg++;
                             });
+
+
+                            nbImg = parsedContent.length;
+
+                            Slider.resize(mainDiv, nbImg);
+
+                            console.log(
+
+                            );
+
+                            $(".next").on("click", function() {
+                                Slider.nextStep(mainDiv, o.speed, nbImg)
+                            });
+                            $(".previous").on("click", function() {
+                                Slider.previousStep(mainDiv, o.speed, nbImg)
+                            });
+                            $(".play").on("click", function() {
+                                Slider.autoPlay(mainDiv, o.speed, o.interval)
+                            });
+                            $(".stop").on("click", function() {
+                                Slider.stopAutoPlay()
+                            });
+                            $(".next").on("click", function() {
+                                $(".textSlider").slideDown()
+                            });
+                            $(".autoPlayHover").ready(function() {
+
+                                var $on = 'section';
+                                $($on).css({
+                                    'background': 'none',
+                                    'border': 'none',
+                                    'box-shadow': 'none'
+                                });
+
+                                $("#autoPlayHover").click(function(){
+                                    if($(this).prop("checked") == true){
+                                        Slider.autoPlay(mainDiv, o.speed, o.interval)
+
+                                        $(".sliderNav").hover(function(){Slider.stopAutoPlay()}, function(){
+                                            Slider.autoPlay(mainDiv, o.speed, o.interval)
+                                        });
+                                    } else if ($(this).prop("checked") == false){
+
+                                         Slider.stopAutoPlay() // annule l'action du lien
+
+                                    }
+                                });
+                            });
+
+
+                            $('.sliderPuces span').on("click", function() {
+                                Slider.puceSlide(mainDiv, o.speed, $(this).data('target'), nbImg)
+                            })
+
                         }
                     });
                 }
-
-var numberImg= prompt("Entrez nombre d'images souhaitées:"," ");
-
-                Slider.resize(mainDiv, numberImg);
-
-
-                $(".next").on("click", function(){ Slider.nextStep(mainDiv, o.speed) });
-                $(".previous").on("click", function(){ Slider.previousStep(mainDiv, o.speed) });
-                $(".play").on("click", function(){ Slider.autoPlay(mainDiv, o.speed, o.interval) });
-                $(".stop").on("click", function(){ Slider.stopAutoPlay() });
             });
         }
     });
 })(jQuery);
 
+
 /** MY SLIDER OBJECT **/
 var Slider = {
     initialize: function(target, name) {
         $(target).append("<ul id='" + name + "' " +
-            "style='padding:0; margin:0 0 0 -"+$(target).width()+"px; list-style-type: none; display:flex;'></ul>");
+            "style='padding:0; margin:0 0 0 -100%; list-style-type: none; display:flex; height: 100%;'></ul>");
     },
 
     resize: function(target, numberElement) {
-        $("#"+target).css('width', ($("#"+target).parent().width() * numberElement) + "px");
+        $("#" + target).css('width', (100 * numberElement) + "%");
     },
 
-    images : {
-        add: function(target, content, struct) {
-            $("#" + target).append(
-                "<li style='width:100%; text-align: center;' id='"+guid()+"'>" +
-                "<img src='"+content[struct.url]+"' style='width:100%; margin:auto;' alt='"+content[struct.description]+"'>" +
-                "<div class='textSlider'>" + guid() +"</div>" +  
-                "</li>");
+    images: {
+        add: function(target, content, struct, id) {
+            if (id == '2') {
+                $("#" + target).append(
+                    "<li id='" + guid() + "' class='active' data-id='" + id + "'>" +
+                    "<img src='" + content[struct.url] + "' style='width:100%; margin:auto;' alt='" + content[struct.description] + "'>" +
+                    "<div class='textSlider'><p class='contentTextSlider'><h2 class='title'>" + content[struct.title] + "</h2>" + content[struct.description] + "</p></div>" +
+                    "</li>");
+                $('.sliderPuces').append("<span class='active' data-target='" + id + "'></span>");
+            } else {
+                $("#" + target).append(
+                    "<li id='" + guid() + "' data-id='" + id + "'>" +
+                    "<img src='" + content[struct.url] + "' style='width:100%; margin:auto;' alt='" + content[struct.description] + "'>" +
+                    "<div class='textSlider'><p class='contentTextSlider'><h2 class='title'>" + content[struct.title] + "</h2>" + content[struct.description] + "</p></div>" +
+                    "</li>");
+                $('.sliderPuces').append("<span data-target='" + id + "'></span>");
+            }
         }
 
     },
 
-    // spans : {
+    nextStep: function(target, speed, nbImg) {
+        var idActive = $("li.active").removeClass("active").data('id');
+        $("span[data-target=" + idActive + "]").removeClass("active");
 
-    //     add: function(target, content , struct){
+        if (idActive == nbImg) {
+            idActive = 1;
+        } else {
+            idActive++;
+        }
 
-    //         $("#" + target).append(
-
-    //             "<span class='spanSlider' onclick='currentDiv()'></span>"
-    //             );
-    //     }
-    
-
-    // },
-
-//     currentSlide: function(n) {
-//   sliderShowJS(indexOfSlide = n);
-// },
-
-// sliderShowJS : function(n) {
-//   var i;
-//   var slides = document.getElementsByClassName("container");
-//   var spanSlider = document.getElementsByClassName("spanSlider");
-//   if (n > slides.length) {indexOfSlide = 1}    
-//   if (n < 1) {indexOfSlide = slides.length}
-//   for (i = 0; i < slides.length; i++) {
-//       slides[i].style.display = "none";  
-//   }
-//   for (i = 0; i < spanSlider.length; i++) {
-//       spanSlider[i].className = spanSlider[i].className.replace(" active", "");
-//   }
-//   slides[indexOfSlide-1].style.display = "block";  
-//   spanSlider[indexOfSlide-1].className += " active";
-// },
-
-    nextStep: function(target, speed) {
-        $("#"+target).animate({marginLeft:-($("#"+target).children().width())*2},speed,function(){
-            $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:last").after($(this).find("li:first"));
+        $("li[data-id=" + idActive + "]").addClass("active");
+        $("span[data-target=" + idActive + "]").addClass("active");
+        $("#" + target).animate({
+            marginLeft: -($("#" + target).children().width()) * 2
+        }, speed, function() {
+            $(this).css({
+                marginLeft: "-" + $("#" + target).children().width() + "px"
+            }).find("li:last").after($(this).find("li:first"));
         });
     },
 
-    previousStep: function(target, speed) {
-        $("#"+target).animate({marginLeft:0},speed,function(){
-            $(this).css({marginLeft:"-"+$("#"+target).children().width()+"px"}).find("li:first").before($(this).find("li:last"));
+    previousStep: function(target, speed, nbImg) {
+        var idActive = $("li.active").removeClass("active").data('id');
+        $("span[data-target=" + idActive + "]").removeClass("active");
+
+        if (idActive == 1) {
+            idActive = nbImg;
+        } else {
+            idActive--;
+        }
+
+        $("li[data-id=" + idActive + "]").addClass("active");
+        $("span[data-target=" + idActive + "]").addClass("active");
+
+        $("#" + target).animate({
+            marginLeft: 0
+        }, speed, function() {
+            $(this).css({
+                marginLeft: "-100%"
+            }).find("li:first").before($(this).find("li:last"));
         })
     },
 
     autoPlay: function(target, speed, interval) {
         Slider.nextStep(target, speed);
-        myInterval = setInterval(function(){
+        myInterval = setInterval(function() {
             Slider.nextStep(target, speed)
         }, interval);
     },
 
     stopAutoPlay: function() {
         clearInterval(myInterval);
+    },
+
+    puceSlide: function(target, speed, data, nbImg) {
+        $("span.active").removeClass("active");
+        $("span[data-target=" + data + "]").addClass("active");
+
+        var idActive = $("li.active").data('id');
+
+        if (idActive < data) {
+            var space = data - idActive;
+
+            $("li.active").removeClass('active');
+            $("li[data-id=" + data + "]").addClass('active');
+
+            $("#" + target).animate({
+                marginLeft: (-100 * (1 + space)) + "%"
+            }, speed, function() {
+
+                for (var i = 0; i < space; i++) {
+                    $("#" + target).find("li:last").after($(this).find("li:first"));
+                }
+
+                $("#" + target).css({
+                    marginLeft: "-100%"
+                });
+            });
+        } else if (idActive > data) {
+            var space = idActive - data;
+
+            $("li.active").removeClass('active');
+            $("li[data-id=" + data + "]").addClass('active');
+
+            $("#" + target).animate({
+                marginLeft: (100 * (space - 1)) + "%"
+            }, speed, function() {
+                for (var i = 0; i < space; i++) {
+                    $("#" + target).find("li:first").before($(this).find("li:last"));
+                }
+                $(this).css({
+                    marginLeft: "-100%"
+                });
+            });
+        }
     }
-
-
-
 };
+
+// run the currently selected effect
 
 /** Helpers Function **/
 function guid() {
@@ -154,37 +252,3 @@ function guid() {
 
     return s4() + s4() + s4() + s4();
 }
-
-//
-// function addImage(where, what) {
-//     $(where).append("<li><img src='" + what['url'] + "' alt='" + what['title'] + "' style='width:" + windowsWidth +"px'></li>").width(windowsWidth*3);
-// }
-//
-// function resizeSlideshow() {
-//     $('#slideshow').width(windowsWidth);
-//     $('#slideshow').height(slideshowHeight);
-// }
-
-
-// $("#slideshow #rail").css({marginLeft:-(window.innerWidth)});
-//
-//
-// $('.suivant').on('click', function(){
-//     $("#slideshow #rail").animate({marginLeft:-(window.innerWidth)},1500,function(){
-//         $(this).css({marginLeft:0}).find("li:last").after($(this).find("li:first"));
-//     })
-// });
-//
-// $('.precedent').on('click', function(){
-//     $("#slideshow #rail").animate({marginLeft:(window.innerWidth)},1500);
-//
-//     $("#slideshow #rail").find("li:first").before($("#slideshow #rail").find("li:last"));
-// });
-//
-// $('.play').on('click', function(){
-//     setInterval(function(){
-//         $("#slideshow #rail").animate({marginLeft:-(window.innerWidth)},1500,function(){
-//             $(this).css({marginLeft:0}).find("li:last").after($(this).find("li:first"));
-//         })
-//     }, 4500);
-// });
